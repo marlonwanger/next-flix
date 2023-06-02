@@ -4,14 +4,11 @@ import Input from "@/components/Input";
 import Image from "next/image";
 import React, { useCallback, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
-import { FcGoogle } from 'react-icons/fc';
-import { FaGithub } from 'react-icons/fa';
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 export default function AuthPage() {
-  const router = useRouter();
-
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,16 +25,13 @@ export default function AuthPage() {
       await signIn("credentials", {
         email,
         password,
-        redirect: false,
-        callbackUrl: "/",
+        callbackUrl: "/profiles",
       });
-
-      router.push("/");
     } catch (error) {
       console.log("Hero Error");
       console.log(error);
     }
-  }, [email, password, router]);
+  }, [email, password]);
 
   const register = useCallback(async () => {
     try {
@@ -102,8 +96,8 @@ export default function AuthPage() {
               {variant === "login" ? "Sign in" : "Register"}
             </button>
             <div className="flex flex-row items-center gap-4 mt-8 justify-center">
-                <div 
-                  onClick={() => signIn("google", { callbackUrl: "/" })} 
+              <div
+                onClick={() => signIn("google", { callbackUrl: "/profiles" })}
                 className="
                   w-10
                   h-10
@@ -115,13 +109,14 @@ export default function AuthPage() {
                   cursor-pointer
                   hover:opacity-80
                   transition
-                ">
-                  <FcGoogle size={30} />
-                </div>
+                "
+              >
+                <FcGoogle size={30} />
+              </div>
 
-                <div
-                  onClick={() => signIn("github", { callbackUrl: "/" })} 
-                  className="
+              <div
+                onClick={() => signIn("github", { callbackUrl: "/profiles" })}
+                className="
                     w-10
                     h-10
                     bg-white
@@ -132,9 +127,10 @@ export default function AuthPage() {
                     cursor-pointer
                     hover:opacity-80
                     transition
-                  ">
-                  <FaGithub size={30} />
-                </div>
+                  "
+              >
+                <FaGithub size={30} />
+              </div>
             </div>
             <p className="text-neutral-500 mt-12 text-sm">
               {variant === "login"
